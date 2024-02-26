@@ -29,12 +29,15 @@ private:
   };
   std::vector<pixel> pixels;
   
+  
 
 public:
   std::string FileName;
   int NumOfImages;
   Stacker();
   ~Stacker();
+  void readFile(std::string FileName);
+  void outFile(std::string FileName);
 
 };
 #endif //STACKER_H
