@@ -27,69 +27,92 @@ Stacker::~Stacker(){
   int width = 0;
   int height = 0;
   int max_color = 0;
-  
 }
 
 
-
-
-
-
-
-
-void Stacker::readFile(string FileName){
-
-  ifstream File(FileName);
+void Stacker::readFile(string &FileName){
   
-  if(File.is_open()){
-    cout << "file opened successfully" << endl;
-    File >> magic_number >> height >> width >> max_color;
-    cout << magic_number << " " << height << " " << width << " " << max_color <<  endl;
+ifstream file(FileName);
 
-
-    while(!File.eof()){
-      pixel pixel;
-      File >> pixel.red >> pixel.green >> pixel.blue;
-      pixels.push_back(pixel);
-    }
-
-    pixels.clear();
-
-
-    for(int i = 0; i < (height * width); i++){
-      cout << pixels[i].red << " " <<  pixels[i].green << " " << pixels[i].blue << endl;
-
-    }
-    File.close();
-  }
-  else{
-    cout << "file not opened"  << endl;
-  }
+if(!file.is_open()){
+  cout << "error1" <<endl;
 }
 
+file >> magic_number >> width >> height >> max_color;
 
-void Stacker::outFile(string FileName){
+  pixels.resize(width * height);
 
-  ofstream FileOut(FileName + ".ppm");
-  
-  if(FileOut.is_open()){
-    FileOut << magic_number << endl;
-    FileOut << width << " " << height << endl;
-    FileOut << max_color << endl;
-
-    for(int i = 0; i < (height * width); i++){
-      FileOut << pixels[i].red << " " << pixels[i].green << " " << pixels[i].blue << endl;
-    }
-
-    FileOut.close();
+  for(int i = 0; i < width * height; i++){
+    file >> pixels[i].red >> pixels[i].green >> pixels[i].blue;
   }
+
+  pixels.clear();
+  file.close();
 }
 
-//void Stacker::Average(){
-  //int sumRed = 0;
-  //int sumGreen = 0;
-  //int sumBlue = 0;
+void Stacker::stackImage(string &baseFileName, int numImages){
 
-  //for(int i = 0; i < (height * width); i++){
-    //sumRed = pixels[
-		    //}
+   pixels.resize(width * height);
+
+  for(int i = 1; i <= numImages; i++){
+      
+    stringstream FileName;
+    FileName << "ppms/ppms/" << baseFileName << "/" << baseFileName << "_";
+
+    if(i < 10)
+      FileName << "00" << i;
+    else if(i >= 10)
+      FileName << "0" << i;
+
+    FileName << ".ppm";
+
+    string name = FileName.str();
+
+    cout << name;
+
+    ifstream file(name);
+
+    if(!file.is_open()){
+      cout << "error2";
+    }
+    
+    vector<pixel> currentPixels(width * height);
+
+
+      file >> magic_number >> width >> height >> max_color;
+
+    
+    for(int j = 0; j < width * height; j++){
+      file >> currentPixels[j].red >> currentPixels[j].green >> currentPixels[j].blue;
+
+      pixels[j].red += currentPixels[j].red;
+      pixels[j].green += currentPixels[j].green;
+      pixels[j].blue += currentPixels[j].blue;
+    }
+
+    file.close();
+  }
+  for(int i = 0; i < width * height; i++){
+      pixels[i].red /= numImages;
+      pixels[i].green /= numImages;
+      pixels[i].blue /= numImages;
+    }
+  
+}
+
+void Stacker::outFile(string& outputFilename){
+  ofstream outputFile(outputFilename);
+
+  if(!outputFile.is_open()){
+    cout << "error3";
+  }
+
+  outputFile << magic_number << endl;
+  outputFile << width << " " << height << endl;
+  outputFile << max_color << endl;
+
+  for(int i = 0; i < width * height; i++){
+    outputFile << pixels[i].red << " " << pixels[i].green << " " << pixels[i].blue << endl;
+  }
+  outputFile.close();
+}

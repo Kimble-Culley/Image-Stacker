@@ -28,18 +28,16 @@ private:
     int blue;
   };
   std::vector<pixel> pixels;
-
-  void Average();
   
 
 public:
-  std::vector<std::string> Array;
-  std::string FileName;
-  int NumOfImages;
   Stacker();
   ~Stacker();
-  void readFile(std::string FileName);
-  void outFile(std::string FileName);
+  void readFile(std::string& FileName);
+
+  void stackImage(std::string& baseFileName, int numImages);
+  
+  void outFile(std::string& outFileName);
 
 };
 #endif //STACKER_H

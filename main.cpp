@@ -11,39 +11,34 @@ using namespace std;
 int main() {
 
   Stacker photo;
+
+  string inFileName;
+  stringstream temp;
+  string temp2;
+  int numImages;
+
   
   cout << "Please enter the image you wish to stack: ";
 
-  cin >> photo.FileName;
+  cin >> inFileName;
 
+  temp << "ppms/ppms/" << inFileName << "/" << inFileName << "_" << "001" << ".ppm";
+  temp2 = temp.str();
   cout << "Please enter the number of images: ";
 
-  cin >> photo.NumOfImages;
+  cin >> numImages;
 
   cout << "Stacking images: " << endl;
 
-    
-  for(int i = 1; i <= photo.NumOfImages; i++){
-    stringstream FullName;
-    FullName << "ppms/ppms/" << photo.FileName << "/" << photo.FileName << "_";
 
-    if(i < 10)
-      FullName << "00" << i;
-    else if(i >= 10)
-      FullName << "0" <<i;
+  photo.readFile(temp2);
 
-    FullName << ".ppm";
+  photo.stackImage(inFileName, numImages);
 
-
-    photo.Array.push_back(FullName.str());
-    cout << photo.Array[i-1] << endl;
-    //photo.readFile(NewName);
+  string outFileName = inFileName + ".ppm";
+  photo.outFile(outFileName);
 
   
-  }
-  //photo.outFile(photo.FileName);
-  int x = 0;
-  cin >> x;
-  cout << photo.Array[x];
-    return 0;
+   return 0;
 }
+
