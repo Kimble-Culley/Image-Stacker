@@ -27,6 +27,7 @@ Stacker::~Stacker(){
   int width = 0;
   int height = 0;
   int max_color = 0;
+  
 }
 
 
@@ -37,8 +38,6 @@ Stacker::~Stacker(){
 
 
 void Stacker::readFile(string FileName){
-
-  FileName = "ppms/ppms/" + FileName + "/" + FileName + "_001.ppm";
 
   ifstream File(FileName);
   
@@ -85,3 +84,12 @@ void Stacker::outFile(string FileName){
     FileOut.close();
   }
 }
+
+//void Stacker::Average(){
+  //int sumRed = 0;
+  //int sumGreen = 0;
+  //int sumBlue = 0;
+
+  //for(int i = 0; i < (height * width); i++){
+    //sumRed = pixels[
+		    //}

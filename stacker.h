@@ -28,10 +28,12 @@ private:
     int blue;
   };
   std::vector<pixel> pixels;
-  
+
+  void Average();
   
 
 public:
+  std::vector<std::string> Array;
   std::string FileName;
   int NumOfImages;
   Stacker();
