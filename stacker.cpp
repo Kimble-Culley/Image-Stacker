@@ -68,7 +68,7 @@ void Stacker::stackImage(string &baseFileName, int numImages){
 
     string name = FileName.str();
 
-    cout << name;
+    cout << name << endl;
 
     ifstream file(name);
 
@@ -114,5 +114,7 @@ void Stacker::outFile(string& outputFilename){
   for(int i = 0; i < width * height; i++){
     outputFile << pixels[i].red << " " << pixels[i].green << " " << pixels[i].blue << endl;
   }
+  cout << "Stacking succeeded." << endl;
+  cout << "Output written to: " << outputFilename << endl;
   outputFile.close();
 }
