@@ -19,32 +19,70 @@
 #include <vector>
 #include <sstream>
 
+
+/**
+ * @class Stacker
+ * @brief Image stacker class for taking stacking images 
+ */
 class Stacker{
 private:
-  std::string magic_number;
+  std::string magic_number; //magic number for PPM image format
   int width;
   int height;
   int max_color;
+
+  /**
+   * @struck pixel 
+   * @brief color info of a pixel 
+   */
   struct pixel{
     int red;
     int green;
     int blue;
   };
-  std::vector<pixel> pixels;
+
+  std::vector<pixel> pixels; //vector to store pixel data 
   
 
 public:
+
+
+/**
+ * constructor for Stacker class
+ *
+ * Initializes image info values 
+ */
   Stacker();
+
+  //destructor for stacker class
   ~Stacker();
-  //Reads the first file to initialize the data.
+
+
+/**
+ * reads the first image file to initialize data  
+ * @param std::string& FileName 
+ * @return void 
+ */
   void readFile(std::string& FileName);
 
-  //Uses a for loop to make each file name, and read in the data into a
-  //new vector to then add and average the data per pixel.
+  
+
+/**
+ * reads in multiple image files, stacks their pixel data, and gets the avg the data per pixel
+ * @param std::string& baseFileName 
+ * @param int numImages  
+ * @return void 
+ */
   void stackImage(std::string& baseFileName, int numImages);
 
-  //Puts the magic number, width, height, max_color, and all the individual
-  //pixel data into one output file with the same name that was used for input.
+ 
+
+/**
+ * puts the magic number, width, height, max_color, and all the individual pixel data into one
+ output file with the same name that was used for input
+ * @param std::string& outFileName 
+ * @return void 
+ */
   void outFile(std::string& outFileName);
 
 };
