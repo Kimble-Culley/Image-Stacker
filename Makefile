@@ -1,4 +1,9 @@
-#Makefile
+# @file Makefile
+# @author Kimble Culley and Sydney
+# @date 2024-02-21
+#
+# Compiles all the files into one excutable, and does error checking.
+#
 CC = g++
 CFLAGS = -g -Wall -Wextra
 

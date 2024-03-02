@@ -2,9 +2,12 @@
  * @file stacker.cpp
  * @author Kimble Culley and Sydney
  * @date 2024-02-21
- * @brief idk yet
+ * @brief The methods for reading, averaging, and outputting the data.
  * 
- * idk yet
+ * Reads in the data over the amount of files the user inputs in main,
+ * creates the full address for each file and then reads in the data
+ * adding them all up then averaging them before putting the averaged
+ * data back into a file using the users original input as the name.
  */
 
 #include <iostream>
@@ -17,12 +20,16 @@
 using namespace std;
 
 
+
+//constructor for Stacker class
 Stacker::Stacker(){
   int width = 0;
   int height = 0;
   int max_color = 0;
 }
 
+
+//destructor for Stacker class
 Stacker::~Stacker(){
   int width = 0;
   int height = 0;
@@ -30,7 +37,8 @@ Stacker::~Stacker(){
 }
 
 
-void Stacker::readFile(string &FileName){
+// reads image data from a PPM file and stores it in the Stacker object
+ void Stacker::readFile(string &FileName){
   
 ifstream file(FileName);
 
@@ -40,8 +48,10 @@ if(!file.is_open()){
 
 file >> magic_number >> width >> height >> max_color;
 
+// resizes pixel vector to accommodate dimensions
   pixels.resize(width * height);
 
+  // read pixel data from file 
   for(int i = 0; i < width * height; i++){
     file >> pixels[i].red >> pixels[i].green >> pixels[i].blue;
   }
@@ -50,13 +60,24 @@ file >> magic_number >> width >> height >> max_color;
   file.close();
 }
 
+
+
+
+/**
+ * stacks images by taking avg of pixel values
+ *
+ * @param string &baseFileName 
+ * @param int numImages 
+ * @return void  
+ */
 void Stacker::stackImage(string &baseFileName, int numImages){
 
    pixels.resize(width * height);
-
+   
   for(int i = 1; i <= numImages; i++){
       
     stringstream FileName;
+    //Creates the full file address to be read in.
     FileName << "ppms/ppms/" << baseFileName << "/" << baseFileName << "_";
 
     if(i < 10)
@@ -72,6 +93,7 @@ void Stacker::stackImage(string &baseFileName, int numImages){
 
     ifstream file(name);
 
+    // error message 
     if(!file.is_open()){
       cout << "error2";
     }
@@ -85,6 +107,7 @@ void Stacker::stackImage(string &baseFileName, int numImages){
     for(int j = 0; j < width * height; j++){
       file >> currentPixels[j].red >> currentPixels[j].green >> currentPixels[j].blue;
 
+      //Adds all the pixel data to the previous ones base on the number of images.
       pixels[j].red += currentPixels[j].red;
       pixels[j].green += currentPixels[j].green;
       pixels[j].blue += currentPixels[j].blue;
@@ -93,6 +116,7 @@ void Stacker::stackImage(string &baseFileName, int numImages){
     file.close();
   }
   for(int i = 0; i < width * height; i++){
+    //Averages the total pixel value by the amount of pictures inputted
       pixels[i].red /= numImages;
       pixels[i].green /= numImages;
       pixels[i].blue /= numImages;
@@ -100,9 +124,17 @@ void Stacker::stackImage(string &baseFileName, int numImages){
   
 }
 
+
+/**
+ * writes the final image into new PPM file
+ *
+ * @param string& outputFilename 
+ * @return void 
+ */
 void Stacker::outFile(string& outputFilename){
   ofstream outputFile(outputFilename);
 
+  // error message 
   if(!outputFile.is_open()){
     cout << "error3";
   }
@@ -112,6 +144,7 @@ void Stacker::outFile(string& outputFilename){
   outputFile << max_color << endl;
 
   for(int i = 0; i < width * height; i++){
+    //Outputs the data into the new file.
     outputFile << pixels[i].red << " " << pixels[i].green << " " << pixels[i].blue << endl;
   }
   cout << "Stacking succeeded." << endl;

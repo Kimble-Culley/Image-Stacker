@@ -2,10 +2,13 @@
  * @file stacker.h
  * @author Kimble Culley and sydney
  * @date 2024-02-21
- * @brief idk yet
+ * @brief a class for storing the information from the desired photos
  * 
- * idk ey
+ * A class to read in the information from the pmm files into the necessary ints and strings,
+ * as well as the methods to read the files, average the data, and output the data to a ppm file. 
  */
+
+
 
 #ifndef STACKER_H
 #define STACKER_H
@@ -33,10 +36,15 @@ private:
 public:
   Stacker();
   ~Stacker();
+  //Reads the first file to initialize the data.
   void readFile(std::string& FileName);
 
+  //Uses a for loop to make each file name, and read in the data into a
+  //new vector to then add and average the data per pixel.
   void stackImage(std::string& baseFileName, int numImages);
-  
+
+  //Puts the magic number, width, height, max_color, and all the individual
+  //pixel data into one output file with the same name that was used for input.
   void outFile(std::string& outFileName);
 
 };
